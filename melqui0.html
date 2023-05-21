@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat de Salas</title>
+  <style>
+    .chat-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .room-creation {
+      margin-bottom: 20px;
+    }
+
+    .room-creation input {
+      margin-bottom: 10px;
+    }
+
+    .room-join input {
+      margin-bottom: 10px;
+    }
+
+    .message-input {
+      margin-bottom: 10px;
+    }
+
+    .chat-messages {
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      height: 300px;
+      overflow-y: scroll;
+    }
+
+    .message {
+      margin-bottom: 10px;
+    }
+
+    .message .user {
+      font-weight: bold;
+    }
+
+    .message .content {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="room-creation">
+      <h2>Crear Sala</h2>
+      <input type="text" id="username-input" placeholder="Nombre de usuario">
+      <input type="text" id="room-name-input" placeholder="Nombre de sala">
+      <input type="text" id="room-code-input" placeholder="Código de sala">
+      <button onclick="createRoom()">Crear Sala</button>
+    </div>
+    <div class="room-join">
+      <h2>Unirse a Sala</h2>
+      <input type="text" id="join-code-input" placeholder="Código de sala">
+      <button onclick="joinRoom()">Unirse a Sala</button>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <input type="text" id="message-input" placeholder="Escribe un mensaje">
+    <button onclick="sendMessage()">Enviar</button>
+  </div>
+
+  <script>
+    var currentRoom = null;
+
+    // Función para crear una sala nueva
+    function createRoom() {
+      var username = document.getElementById("username-input").value;
+      var roomName = document.getElementById("room-name-input").value;
+      var roomCode = document.getElementById("room-code-input").value;
+
+      if (roomName && roomCode) {
+        // Aquí puedes implementar la lógica para guardar la sala en el servidor
+
+        // Redirigir al chat de la sala creada
+        currentRoom = roomCode;
+        redirectToChat();
+      }
+    }
+
+    // Función para unirse a una sala existente
+    function joinRoom() {
+      var joinCode = document.getElementById("join-code-input").value;
+
+      // Aquí puedes implementar la lógica para verificar el código de sala en el servidor
+      // y redirigir al chat de la sala correspondiente si el código es válido
+
+      if (joinCode === "ERROR") {
+        alert("Código de sala incorrecto. Por favor, comprueba la escritura del código y vuelve a intentarlo.");
+      } else {
+        currentRoom = joinCode;
+        redirectToChat();
+      }
+    }
+
+    // Función para redirigir al chat de la sala actual
+    function redirectToChat() {
+      // Aquí puedes implementar la lógica de redirección a la página de chat
+      // por ejemplo, cambiando la ventana.location o utilizando una librería de enrutamiento
+      // en este ejemplo, simplemente mostramos una alerta con la información de la sala
+      alert("¡Bienvenido a la sala " + currentRoom + "!");
+    }
+
+    // Función para enviar un mensaje
+    function sendMessage() {
+      var username = document.getElementById("username-input").value;
+      var message = document.getElementById("message-input").value;
+      var chatMessages = document.getElementById("chat-messages");
+
+      // Verificar si se ingresó un nombre de usuario y un mensaje
+      if (username && message) {
+        var formattedMessage = "<div class='message'><span class='user'>" + username + ":</span><span class='content'>" + message + "</span></div>";
+        chatMessages.innerHTML += formattedMessage;
+
+        // Limpiar el campo de mensaje
+        document.getElementById("message-input").value = "";
+      }
+    }
+  </script>
+</body>
+</html>
